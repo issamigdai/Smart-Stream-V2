@@ -61,3 +61,28 @@ function filter() {
     return result;
 }
 
+function displayConteries() {
+    const container = document.getElementById('contrieHolder');
+    let html = '';
+    selectedCountries.forEach(countrie => {
+        html += `
+            <button type="button" data-code="${countrie.code}"
+                class="flex h-16 w-full cursor-pointer items-center gap-3 rounded-lg border border-[#1E293B] bg-[#0F172A] p-3 text-left transition-colors hover:border-[#818CF8] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#818CF8]">
+                <img class="h-[20px] shrink-0"
+                src="https://flagsapi.com/${countrie.code}/flat/64.png" alt="">
+                <strong class="truncate font-sans text-[#F8FAFC]">
+                    ${countrie.name}
+                </strong>
+            </button>
+        `;
+    });
+    container.innerHTML = html;
+    container.addEventListener('click', function (e) {
+        const btn = e.target.closest('button[data-code]');
+        if (!btn) return;
+        currentCountry = btn.dataset.code;
+        displaychannels();
+    });
+}
+
+
