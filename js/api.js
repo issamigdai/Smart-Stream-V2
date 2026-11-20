@@ -52,6 +52,18 @@ export async function updateChannelApi(id, data) {
     return await res.json();
 }
 
+export async function addChannelApi(data) {
+    const res = await fetch(CHANNELS_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+    if (!res.ok) {
+        throw new Error(`Add failed (${res.status})`);
+    }
+    return await res.json();
+}
+
 export function updateFavoriteApi(id, status) {
     return updateChannelApi(id, { isFavorite: status });
 }
