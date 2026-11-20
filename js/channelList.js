@@ -1,4 +1,4 @@
-import { getCountriesApi, getChannelsApi, updateFavoriteApi, updateBlacklistApi } from './api.js'
+import { getCountriesApi, getChannelsApi, addChannelApi, updateFavoriteApi, updateBlacklistApi } from './api.js'
 
 let countries = [];
 let channels = [];
@@ -17,7 +17,7 @@ const streamByChannel = {};
 
 let currentCountry = '';
 let currentCategory = 'All';
-let currentView = 'all';
+let currentView = localStorage.getItem('currentView') || 'all';
 
 for (let i = 0; i < channels.length; i++) {
     const channel = channels[i];
@@ -204,12 +204,31 @@ Categorie.addEventListener('change', function () {
     displaychannels();
 });
 
+function showActiveView() {
+    const buttons = document.querySelectorAll('#viewButtons button');
+    buttons.forEach(button => {
+        if (button.dataset.view === currentView) {
+            button.classList.add('bg-white', 'text-[#0F172A]');
+            button.classList.remove('text-white', 'hover:bg-blue-900');
+        } else {
+            button.classList.remove('bg-white', 'text-[#0F172A]');
+            button.classList.add('text-white', 'hover:bg-blue-900');
+        }
+    });
+}
+
 displayConteries();
 displaychannels();
+showActiveView();
 
 document.getElementById('viewButtons').addEventListener('click', (e) => {
     const btn = e.target.closest('button');
     if (!btn) return;
     currentView = btn.dataset.view;
+    if (currentView !== 'blacklist') {
+        localStorage.setItem('currentView', currentView);
+    }
+    showActiveView();
     displaychannels();
 });
+
