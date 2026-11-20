@@ -195,3 +195,21 @@ document.getElementById('channelList').addEventListener('click', async (e) => {
     `;
 });
 
+document.getElementById('input').addEventListener('input', function () {
+    displaychannels();
+});
+
+Categorie.addEventListener('change', function () {
+    currentCategory = Categorie.value;
+    displaychannels();
+});
+
+displayConteries();
+displaychannels();
+
+document.getElementById('viewButtons').addEventListener('click', (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    currentView = btn.dataset.view;
+    displaychannels();
+});
