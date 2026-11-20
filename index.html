@@ -16,15 +16,19 @@
         <a href="index.html">
             <img src="img/Smart Stream logo-selection.png" alt="logo" class="h-[32px]">
         </a>
-        <div class="flex flex-row gap-2 justify-between items-center px-2 py-1 rounded-xl bg-[#1E293B]">
-            <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="4" cy="4" r="4" fill="#EF4444" />
-            </svg>
-            <small class="font-sans font-semibold text-white">Live</small>
+        <div class="flex flex-row gap-3 items-center">
+            <button class="w-[150px] border border-white rounded-md px-2 py-1 text-white font-semibold font-sans">Add
+                channel</button>
+            <div class="flex flex-row gap-2 justify-between items-center px-2 py-1 rounded-xl bg-[#1E293B]">
+                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="4" cy="4" r="4" fill="#EF4444" />
+                </svg>
+                <small class="font-sans font-semibold text-white">Live</small>
+            </div>
         </div>
     </nav>
     <div class="flex-col flex md:flex-row ">
-        <aside class="w-full flex flex-col gap-2 md:flex-row border-r border-[#334155] bg-[#0F172A]">
+        <aside class="w-full h-[100vh] flex flex-col gap-2 md:flex-row border-r border-[#334155] bg-[#0F172A]">
             <div class="flex flex-col w-full border-r p-2 md:p-4 gap-4 border-[#334155]">
                 <div class="flex flex-col gap-3">
                     <strong class="font-sans font-bold text-white">Live TV</strong>
@@ -39,14 +43,24 @@
                     <input type="search" placeholder="Search by channel name or number..."
                         class="bg-[#1E293B] border text-[#94A3B8] border-[#334155] w-full h-[44px] rounded-lg p-3"
                         id="input">
-                    <small class="font-sans text-[#94A3B8]">12 channels</small>
-                    <div class="flex flex-row gap-2 max-w-full overflow-x-auto" id="btnscontainer"> 
-                        <button class="text-white bg-[#1E293B] px-2 py-1 rounded-lg cursor-pointer" id="All">All</button>
-                        <button class="text-white bg-[#1E293B] px-2 py-1 rounded-lg cursor-pointer" id="Documentary">Documentary</button>
-                        <button class="text-white bg-[#1E293B] px-2 py-1 rounded-lg cursor-pointer" id="News">News</button>
-                        <button class="text-white bg-[#1E293B] px-2 py-1 rounded-lg cursor-pointer" id="Sports">Sports</button>
-                        <button class="text-white bg-[#1E293B] px-2 py-1 rounded-lg cursor-pointer" id="general">general</button>
+                    <small class="font-sans text-[#94A3B8]" id="number"></small>
+                    <div class="flex flex-row gap-2" id="viewButtons">
+                        <button type="button" data-view="all"
+                            class="w-full h-[40px] rounded-md border border-white cursor-pointer bg-white text-[#0F172A] font-sans font-semibold">All</button>
+                        <button type="button" data-view="favorites"
+                            class="w-full h-[40px] rounded-md border border-white hover:bg-blue-900 cursor-pointer text-white font-sans font-semibold">My
+                            Favorites</button>
+                        <button type="button" data-view="blacklist"
+                            class="w-full h-[40px] rounded-md border border-white hover:bg-blue-900 cursor-pointer text-white font-sans font-semibold">Blacklisted</button>
                     </div>
+                    <select id="Categorie" class="px-2 py-1 text-white border rounded-md border-white">
+                        <option value="All" class="text-black">All</option>
+                        <option value="Documentary" class="text-black">Documentary</option>
+                        <option value="News" class="text-black">News</option>
+                        <option value="Sports" class="text-black">Sports</option>
+                        <option value="general" class="text-black">general</option>
+                        <option value="Kids" class="text-black">Kids</option>
+                    </select>
                 </div>
                 <div class="flex flex-col md:flex-col gap-2 max-h-150 overflow-auto" id="channelList">
 
@@ -56,6 +70,10 @@
         <main class="bg-[#05070B] w-full p-2 md:p-8 flex flex-col gap-3" id="main">
             <!-- main page Holder -->
         </main>
+    </div>
+    <div id="loading" class="fixed hidden flex-col gap-3 inset-0 z-50 items-center justify-center bg-black/50">
+        <div class="h-12 w-12 animate-spin rounded-full border-4 border-blue-800 border-t-transparent"></div>
+        <p class="font-semibold text-white">waiting for the data.....</p>
     </div>
 </body>
 
