@@ -40,3 +40,21 @@ export async function getChannelsApi() {
     }
 }
 
+export async function updateChannelApi(id, data) {
+    const res = await fetch(`${CHANNELS_URL}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+    });
+    if (!res.ok) {
+        throw new Error(`Update failed (${res.status})`);
+    }
+    return await res.json();
+}
+
+export function updateFavoriteApi(id, status) {
+    return updateChannelApi(id, { isFavorite: status });
+}
+export function updateBlacklistApi(id, status) {
+    return updateChannelApi(id, { isBlacklisted: status });
+}
