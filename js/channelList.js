@@ -122,3 +122,76 @@ function displaychannels() {
     number.textContent = filtered.length + " channels";
     document.getElementById('channelList').innerHTML = html;
 }
+
+document.getElementById('channelList').addEventListener('click', async (e) => {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    let channel = null;
+    for (let i = 0; i < selectedChannels.length; i++) {
+        if (selectedChannels[i].id == id) {
+            channel = selectedChannels[i];
+        }
+    }
+    if (!channel) return;
+    if (e.target.closest('[data-action="favorite"]')) {
+        const previous = channel.isFavorite;
+        channel.isFavorite = !previous;
+        displaychannels();
+        try {
+            await updateFavoriteApi(channel.id, channel.isFavorite);
+        } catch (error) {
+            console.error(error);
+            channel.isFavorite = previous;
+            displaychannels();
+        }
+        return;
+    }
+
+    if (e.target.closest('[data-action="blacklist"]')) {
+        const previous = channel.isBlacklisted;
+        const message = previous
+            ? 'Remove this channel from the blacklist?'
+            : 'Add this channel to the blacklist?';
+
+        if (!confirm(message)) return;
+        channel.isBlacklisted = !previous;
+        displaychannels();
+        try {
+            await updateBlacklistApi(channel.id, channel.isBlacklisted);
+        } catch (error) {
+            console.error(error);
+            channel.isBlacklisted = previous;
+            displaychannels();
+        }
+        return;
+    }
+
+
+    const countryName = selectedCountries.find(c => c.code === channel.country)?.name ?? channel.country;
+    const streamUrl = streamByChannel[channel.id];
+    const list = document.getElementById('main');
+
+    list.innerHTML = `
+        <div class="flex flex-col gap-6">
+            <div class="flex flex-row gap-4 items-center">
+                <div class="flex flex-col">
+                    <strong class="font-bold font-sans text-md text-white">
+                        ${channel.name}
+                    </strong>
+                    <small class="font-sans text-[#94A3B8]">
+                        ${countryName} · ${channel.category}
+                    </small>
+                </div>
+            </div>
+            <div id="playerHolder">
+                <video-player>
+                    <video-skin style="display: block; width: 100%; aspect-ratio: 16 / 9; --media-controls-before-start: visible;">
+                        <hlsjs-video src="${streamUrl}" playsinline></hlsjs-video>
+                    </video-skin>
+                </video-player>
+            </div>
+        </div>
+    `;
+});
+
