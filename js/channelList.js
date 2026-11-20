@@ -232,3 +232,73 @@ document.getElementById('viewButtons').addEventListener('click', (e) => {
     displaychannels();
 });
 
+const popUp = document.getElementById('popUp');
+const channelForm = document.getElementById('channelForm');
+const formError = document.getElementById('formError');
+let selectedCategory = '';
+
+function showSelectedCategory() {
+    const buttons = document.querySelectorAll('#categoryButtons button');
+    buttons.forEach(button => {
+        if (button.dataset.category === selectedCategory) {
+            button.classList.add('bg-blue-800');
+        } else {
+            button.classList.remove('bg-blue-800');
+        }
+    });
+}
+
+function closePopUp() {
+    popUp.classList.remove('flex');
+    popUp.classList.add('hidden');
+    channelForm.reset();
+    formError.textContent = '';
+    selectedCategory = '';
+    showSelectedCategory();
+}
+
+document.getElementById('addChannelBtn').addEventListener('click', function () {
+    popUp.classList.remove('hidden');
+    popUp.classList.add('flex');
+});
+
+document.getElementById('cancelBtn').addEventListener('click', closePopUp);
+
+document.getElementById('categoryButtons').addEventListener('click', function (e) {
+    const btn = e.target.closest('button');
+    if (!btn) return;
+    selectedCategory = btn.dataset.category;
+    showSelectedCategory();
+});
+
+channelForm.addEventListener('submit', async function (e) {
+    e.preventDefault();
+
+    const number = document.getElementById('channelNumber').value.trim();
+    const name = document.getElementById('channelName').value.trim();
+
+    if (!number || !name) {
+        formError.textContent = 'Please fill in the channel number and name.';
+        return;
+    }
+
+    try {
+        const newChannel = await addChannelApi({
+            number: number,
+            name: name,
+            url: document.getElementById('channelUrl').value.trim(),
+            country: document.getElementById('Country').value,
+            category: selectedCategory,
+            logo: document.getElementById('channelLogo').value.trim(),
+            isFavorite: false,
+            isBlacklisted: false
+        });
+        selectedChannels.push(newChannel);
+        streamByChannel[newChannel.id] = newChannel.url;
+        displaychannels();
+        closePopUp();
+    } catch (error) {
+        console.error(error);
+        formError.textContent = 'Could not add the channel. Please try again.';
+    }
+});
