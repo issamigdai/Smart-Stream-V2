@@ -85,4 +85,40 @@ function displayConteries() {
     });
 }
 
+function displaychannels() {
+    const number = document.getElementById('number');
 
+    if (loadFailed) {
+        number.textContent = '';
+        document.getElementById('channelList').innerHTML =
+            `<p class="font-sans text-red-400">Could not load channels. Please try again.</p>`;
+        return;
+    }
+
+    const filtered = filter();
+    let html = '';
+
+    filtered.forEach(channel => {
+        html += `
+            <button
+    class="flex flex-row justify-between items-center h-[64px] bg-[#0F172A] p-3 gap-3 border border-[#1E293B] hover:border-[#818CF8] cursor-pointer rounded-lg w-full text-[#F8FAFC]"
+    data-id="${channel.id}">
+    <span>${channel.name}</span>
+    <div class="flex flex-row gap-2 items-center">
+        <span class="flex flex-row gap-3 items-center rounded cursor-pointer" data-action="favorite">
+            <svg viewBox="0 0 24 24" class="w-5 h-5 ${channel.isFavorite ? 'stroke-yellow-400 fill-yellow-400' : 'stroke-white fill-transparent'}">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.77 5.82 21 7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+            <span class="text-white font-semibold font-sans"></span>
+        </span>
+        <span class="flex flex-row gap-3 items-center rounded cursor-pointer text-white" data-action="blacklist">
+            ${currentView === 'blacklist' ? 'Restore' : '🚫'}
+        </span>
+    </div>
+</button>
+        `;
+    });
+
+    number.textContent = filtered.length + " channels";
+    document.getElementById('channelList').innerHTML = html;
+}
