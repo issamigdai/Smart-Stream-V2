@@ -17,7 +17,8 @@
             <img src="img/Smart Stream logo-selection.png" alt="logo" class="h-[32px]">
         </a>
         <div class="flex flex-row gap-3 items-center">
-            <button class="w-[150px] border border-white rounded-md px-2 py-1 text-white font-semibold font-sans">Add
+            <button id="addChannelBtn"
+                class="w-[150px] border border-white rounded-md px-2 py-1 text-white font-semibold font-sans">Add
                 channel</button>
             <div class="flex flex-row gap-2 justify-between items-center px-2 py-1 rounded-xl bg-[#1E293B]">
                 <svg width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -74,6 +75,78 @@
     <div id="loading" class="fixed hidden flex-col gap-3 inset-0 z-50 items-center justify-center bg-black/50">
         <div class="h-12 w-12 animate-spin rounded-full border-4 border-blue-800 border-t-transparent"></div>
         <p class="font-semibold text-white">waiting for the data.....</p>
+    </div>
+    <div id="popUp" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/60">
+        <form id="channelForm"
+            class="flex flex-col p-8 gap-4 bg-[#171A21] w-[520px] max-h-[90vh] overflow-auto rounded-xl border border-[#2F3541] z-50">
+            <div class="flex flex-col px-2">
+                <label for="name" class="text-white font-sans font-semibold text-2xl">Add a channel</label>
+                <span class="font-sans text-[#A3ABBA]">Add a live stream to your Smart Stream list.</span>
+            </div>
+            <div class="flex flex-col gap-1">
+                <label for="channelNumber" class="text-white font-sans font-semibold px-2">Channel number</label>
+                <input type="number" id="channelNumber"
+                    class="h-12 w-full px-4 text-white rounded-md border border-[#2F3541]">
+            </div>
+            <div class="flex flex-col gap-1">
+                <label for="channelName" class="text-white font-sans font-semibold px-2">Channel name</label>
+                <input type="text" id="channelName"
+                    class="h-12 w-full px-4 text-white rounded-md border border-[#2F3541]">
+            </div>
+            <div class="flex flex-col gap-1">
+                <label for="channelUrl" class="text-white font-sans font-semibold px-2">Stream URL</label>
+                <input type="text" id="channelUrl"
+                    class="h-12 w-full px-4 text-white rounded-md border border-[#2F3541]">
+                <span class="font-sans text-[#A3ABBA]">Paste a .mpd, .m3u8 or direct stream link.</span>
+            </div>
+            <div class="flex flex-col gap-1">
+                <label for="Country" class="text-white font-sans font-semibold px-2">Country</label>
+                <select name="Country" id="Country"
+                    class="h-12 w-full rounded-md border border-[#2F3541] text-white px-4">
+                    <option value="" class="text-black px-4">Select a countery code</option>
+                    <option value="BR" class="text-black px-4">BR</option>
+                    <option value="CN" class="text-black px-4">CN</option>
+                    <option value="FR" class="text-black px-4">FR</option>
+                    <option value="DE" class="text-black px-4">DE</option>
+                    <option value="JP" class="text-black px-4">JP</option>
+                    <option value="MA" class="text-black px-4">MA</option>
+                    <option value="KR" class="text-black px-4">KR</option>
+                    <option value="ES" class="text-black px-4">ES</option>
+                    <option value="US" class="text-black px-4">US</option>
+                </select>
+            </div>
+            <div class="flex flex-col gap-1">
+                <label for="Categorie" class="text-white font-sans font-semibold px-2">Categorie</label>
+                <div class="flex flex-row gap-2" id="categoryButtons">
+                    <button type="button" data-category="News"
+                        class="px-4 py-2 rounded-md border border-[#2F3541] text-white cursor-pointer hover:bg-blue-800 hover:border-0">News</button>
+                    <button type="button" data-category="Documentary"
+                        class="px-4 py-2 rounded-md border border-[#2F3541] text-white cursor-pointer hover:bg-blue-800 hover:border-0">Documentary</button>
+                    <button type="button" data-category="Sports"
+                        class="px-4 py-2 rounded-md border border-[#2F3541] text-white cursor-pointer hover:bg-blue-800 hover:border-0">Sports</button>
+                    <button type="button" data-category="General"
+                        class="px-4 py-2 rounded-md border border-[#2F3541] text-white cursor-pointer hover:bg-blue-800 hover:border-0">General</button>
+                    <button type="button" data-category="Kids"
+                        class="px-4 py-2 rounded-md border border-[#2F3541] text-white cursor-pointer hover:bg-blue-800 hover:border-0">Kids</button>
+                </div>
+            </div>
+            <div class="flex flex-col gap-1">
+                <label for="channelLogo" class="text-white font-sans font-semibold px-2">Logo URL</label>
+                <input type="text" id="channelLogo"
+                    class="h-12 w-full px-4 text-white rounded-md border border-[#2F3541]">
+            </div>
+            <span id="formError" class="font-sans text-red-400 px-2"></span>
+            <div class="flex flex-row  p-4 border-t border-gray-700 justify-between items-center">
+                <span class="font-sans text-[#A3ABBA]">Number and name are required.</span>
+                <div class="flex flex-row gap-2">
+                    <button type="button" id="cancelBtn"
+                        class="px-4 py-2 rounded-md border border-[#2F3541] text-white cursor-pointer hover:bg-blue-800 hover:border-0">Cancel</button>
+                    <button
+                        class="px-4 py-2 rounded-md border border-[#2F3541] text-white cursor-pointer hover:bg-blue-800 hover:border-0">Add
+                        channel</button>
+                </div>
+            </div>
+        </form>
     </div>
 </body>
 
