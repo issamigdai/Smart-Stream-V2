@@ -21,3 +21,22 @@ export async function getCountriesApi() {
     }
 }
 
+export async function getChannelsApi() {
+    try {
+        load.classList.remove('hidden')
+        load.classList.add('flex')
+        const res = await fetch(CHANNELS_URL);
+        if (!res.ok) {
+            throw new Error("Something went wrong");
+        }
+        const channels = await res.json();
+        return channels;
+    } catch (error) {
+        console.log(error);
+        throw error;
+    } finally {
+        load.classList.remove('flex')
+        load.classList.add('hidden')
+    }
+}
+
